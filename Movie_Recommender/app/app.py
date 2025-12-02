@@ -1,5 +1,4 @@
 import os
-import joblib
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
@@ -46,3 +45,4 @@ if __name__ == "__main__":
     print(f"Model R²: {pipe.score(X_test, y_test):.3f}")
     joblib.dump(pipe, MODEL_PATH)
     print(f"Model saved to {MODEL_PATH}")
+
