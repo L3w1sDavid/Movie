@@ -8,7 +8,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CSV_PATH = os.path.join(BASE_DIR, "data/Latest 2025 movies Datasets.csv")
+CSV_PATH = os.path.join(BASE_DIR, "Data/Latest 2025 movies Datasets.csv")
 MODEL_PATH = os.path.join(BASE_DIR, "models/model.pkl")
 
 def load_data():
@@ -46,5 +46,6 @@ if __name__ == "__main__":
     print(f"Model R²: {pipe.score(X_test, y_test):.3f}")
     joblib.dump(pipe, MODEL_PATH)
     print(f"Model saved to {MODEL_PATH}")
+
 
 
