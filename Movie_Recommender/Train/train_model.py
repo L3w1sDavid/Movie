@@ -8,7 +8,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CSV_PATH = os.path.join(BASE_DIR, "Data/Latest 2025 movies Datasets.csv")
+CSV_PATH = os.path.join(BASE_DIR, "data/Latest 2025 movies Datasets.csv")
 MODEL_PATH = os.path.join(BASE_DIR, "models/model.pkl")
 
 df = pd.read_csv(CSV_PATH)
@@ -17,19 +17,18 @@ df["year"] = df["release_date"].dt.year.fillna(df["release_date"].dt.year.mode()
 df["overview_len"] = df["overview"].fillna("").str.len()
 df["vote_average"] = pd.to_numeric(df["vote_average"], errors="coerce")
 
-features = df[["original_language", "popularity", "vote_count", "year", "overview_len"]]
+features = df[["vote_count", "popularity", "overview_len"]]
 target = df["vote_average"]
 mask = target.notna()
 X, y = features[mask], target[mask]
 
 preprocessor = ColumnTransformer([
-    ("cat", OneHotEncoder(handle_unknown="ignore"), ["original_language"]),
-    ("num", StandardScaler(), ["popularity", "vote_count", "year", "overview_len"])
+    ("num", StandardScaler(), ["vote_count", "popularity", "overview_len"])
 ])
 
 model = Pipeline([
     ("pre", preprocessor),
-    ("rf", RandomForestRegressor(n_estimators=50, max_depth=10, random_state=42, n_jobs=-1))
+    ("rf", RandomForestRegressor(n_estimators=5, max_depth=3, random_state=42, n_jobs=-1))
 ])
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
